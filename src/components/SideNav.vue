@@ -7,20 +7,21 @@
   </div>
 </template>
 <script>
+import serverStore from '../stores/serverStore.js'
 export default {
   data () {
     return {
-      serverCount: 4
+      serverCount: 4,
+      serverStore: serverStore.get()
     }
   },
   methods: {
     addServer () {
       this.serverCount++
-      console.log(this.serverCount)
+      this.serverStore.app_1 = 'set'
     },
     removeServer () {
       this.serverCount--
-      console.log(this.serverCount)
     }
   },
   computed: {
