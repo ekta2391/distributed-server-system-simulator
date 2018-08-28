@@ -1,15 +1,25 @@
 <template>
   <div class="side-nav-container">
     <div class="add-remove">
-      <span role="button" @click="addServer" class="add">+</span>
-      <span role="button" @click="removeServer" class="remove">-</span>
+      <div :style="{display: 'inline-block'}">
+        <div class="add">
+          <span role="button" @click="addServer" >+</span>
+        </div>
+        <p :style="{'font-size': '14px'}">Add Server</p>
+      </div>
+      <div :style="{display: 'inline-block'}">
+        <div class="remove">
+          <span role="button" @click="removeServer">-</span>
+        </div>
+        <p :style="{'font-size': '14px'}">Remove Server</p>
+      </div>
     </div>
     <div class="apps">
       <p>Available Apps</p>
       <ul>
         <li v-for="app in apps">{{app.name}}<span class="activate-group">
-          <span @click="deactivateApp(app.name)">-</span>
-          <span @click="activateApp(app.name)">+</span></span>
+          <span  @click="deactivateApp(app.name)">-</span>
+          <span  @click="activateApp(app.name)">+</span></span>
         </li>
       </ul>
     </div>
@@ -33,7 +43,7 @@ export default {
   },
   methods: {
     addServer () {
-      this.serverStore.servers.push({
+      this.servers.push({
         id: null,
         app_1: {
           name: ''
@@ -41,7 +51,12 @@ export default {
         app_2: {
           name: ''
         },
-      },);
+      },)
+      this.servers.forEach(s => {
+        if(s.id === null) {
+          s.id = this.servers.indexOf(s) + 1
+        }
+      })
     },
     removeServer () {
       // Check if a minimum of 4 servers exist before removing a server from the cluster
@@ -53,25 +68,86 @@ export default {
       }
   },
   activateApp (name) {
-    console.log('activate: ' + name)
-    this.availableServers[0].app_1.name = name;
+    // First check if there is any server with 0 apps running
+    if(this.availableServers.length > 0) {
+      let app_1_index
+      for (var key in this.serverStore.activeApps) {
+        if (key === name) {
+          let activeIndex = this.serverStore.activeApps[key].push(this.serverStore.activeApps[key].length)
+          app_1_index = activeIndex - 1
+          console.log(this.serverStore.activeApps)
+          let appInstance = this.availableServers[0].app_1;
+          appInstance.id = app_1_index;
+          appInstance.name = name;
+        }
+      }
+    }
+    // If all servers have atleast 1 app running activate app on 1st server with 1 app running
+    else if(this.singleAppServers.length > 0) {
+      let app_2_index
+      for (var key in this.serverStore.activeApps) {
+        if (key === name) {
+          let activeIndex = this.serverStore.activeApps[key].push(this.serverStore.activeApps[key].length)
+          app_2_index = activeIndex - 1
+          let appInstance = this.singleAppServers[0].app_2;
+          appInstance.id = app_2_index;
+          appInstance.name = name;
+        }
+      }
+    }
+    else {
+      alert('No more availabele servers to activate the app. Add a server first to activate an app.')
+    }
+    console.log(this.serverStore.servers)
   },
   deactivateApp (name) {
-    console.log('deActivate: ' + name)
+      let instanceExists = false
+      for (var key in this.serverStore.activeApps) {
+        if(key === name) {
+          let deactivatedApp = this.serverStore.activeApps[key].pop()
+            this.serverStore.servers.forEach(server => {
+                if(server.app_1.name === key && server.app_1.id === deactivatedApp) {
+                  server.app_1.id = null;
+                  server.app_1.name = '';
+                  instanceExists = true
+              }
+
+               if(server.app_2.name === key && server.app_2.id === deactivatedApp) {
+                  console.log(server)
+                  server.app_2.id = null;
+                  server.app_2.name = '';
+                  instanceExists = true
+              }
+            })
+        }
+      }
+      if(!instanceExists) {
+        alert('No more active instances of ' + name)
+      }
+
   }
   },
   computed: {
     servers () {
-      return this.serverStore.get()
+      return this.serverStore.get().servers
     },
     availableServers () {
       let availableServers = [];
-      this.servers.servers.forEach(server => {
+      this.servers.forEach(server => {
         if(server.app_1.name === "" && server.app_2.name === "") {
           availableServers.push(server)
         }
       })
       return availableServers
+    },
+    singleAppServers () {
+      let singleAppServers = [];
+      this.servers.forEach(server => {
+        if(server.app_1.name.length > 0 && server.app_2.name === "") {
+          singleAppServers.push(server)
+        }
+      })
+      return singleAppServers
     }
   }
 }
@@ -95,13 +171,23 @@ export default {
 .add, .remove {
   display: inline-block;
   padding: 20px;
+  border: solid 2px #ffffff;
+  border-radius: 2em;
+  width: 30px;
+  font-weight: 800;
+  font-size: 24px;
+  margin: 15px;
   &:hover {
     cursor: pointer;
+  }
+  p {
+    font-size: 8px;
   }
 }
 
 .apps {
   color: white;
+  margin-top: 100px;
   p {
     text-align: center;
   }
