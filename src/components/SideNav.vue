@@ -1,15 +1,15 @@
 <template>
   <div class="side-nav-container">
     <div class="add-remove">
-      <div :style="{display: 'inline-block'}">
+      <div  role="button" @click="addServer" :style="{display: 'inline-block'}">
         <div class="add">
-          <span role="button" @click="addServer" >+</span>
+          <span>+</span>
         </div>
         <p :style="{'font-size': '14px'}">Add Server</p>
       </div>
-      <div :style="{display: 'inline-block'}">
+      <div  role="button" @click="removeServer" :style="{display: 'inline-block'}">
         <div class="remove">
-          <span role="button" @click="removeServer">-</span>
+          <span>-</span>
         </div>
         <p :style="{'font-size': '14px'}">Remove Server</p>
       </div>
@@ -187,18 +187,23 @@ export default {
 
 .apps {
   color: white;
-  margin-top: 100px;
+  margin-top: 300px;
   p {
-    text-align: center;
+    text-align: left;
+    padding-left: 60px;
+    color: #8D8282;
   }
   ul {
+    background-color: black;
     list-style: none;
     padding-left: 0;
+    text-align: left;
   }
   li {
-    line-height: 30px;
-    margin-top: 20px;
+    border-bottom:  solid 0.1px #433D3D;
+    line-height: 50px;
     background-color: black;
+    padding-left: 60px;
     &:hover {
       cursor: pointer;
     }
