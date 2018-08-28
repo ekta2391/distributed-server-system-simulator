@@ -107,8 +107,17 @@ export default {
           let deactivatedApp = this.serverStore.activeApps[key].pop()
             this.serverStore.servers.forEach(server => {
                 if(server.app_1.name === key && server.app_1.id === deactivatedApp) {
-                  server.app_1.id = null;
-                  server.app_1.name = '';
+                  // check if server has second app instance running and delete the first app and assign second app instance as first
+                  if(server.app_2.id) {
+                    server.app_1.id = server.app_2.id;
+                    server.app_1.name = server.app_2.name;
+                    server.app_2.id = null;
+                    server.app_2.name = '';
+                  }
+                  else {
+                    server.app_1.id = null;
+                    server.app_1.name = '';
+                  }
                   instanceExists = true
               }
 
