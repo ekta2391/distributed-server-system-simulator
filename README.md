@@ -2,6 +2,10 @@
 
 > This is a simulation UI for a Mesos Distributed system. This simulation has the ability to add a server, remove a server, activate applications on each server as well as deactivate them.
 
+# Framework and libraries used
+- Vue.js as frontend framework and state managaement
+- Standard package/module bundlers and transpilers: npm, babel and webpack
+
 ## Build Setup
 
 Make sure you have `npm` installed in your system.
