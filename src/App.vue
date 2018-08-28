@@ -60,6 +60,10 @@ export default {
   width: 20%;
 }
 .panel {
+  h1 {
+    text-align: left;
+    margin-left: 30px;
+  }
   color: white;
   font-family: sans-serif;
   width: 80%;
