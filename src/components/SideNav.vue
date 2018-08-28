@@ -61,7 +61,19 @@ export default {
     removeServer () {
       // Check if a minimum of 4 servers exist before removing a server from the cluster
       if (this.serverStore.servers.length > 4) {
-        this.serverStore.servers.pop()
+        if(this.availableServers.length > 0) {
+          let removedServer =  this.serverStore.servers.pop()
+          let assignedServer = this.availableServers[0]
+          // Object.assign will not work in this case
+          assignedServer.app_1.id = removedServer.app_1.id
+          assignedServer.app_1.name = removedServer.app_1.name
+          assignedServer.app_2.id = removedServer.app_2.id
+          assignedServer.app_2.name = removedServer.app_2.name
+
+        }
+        else {
+          this.serverStore.servers.pop()
+        }
       }
       else {
         alert('There should be a minimum of 4 servers at all times!')
