@@ -6,7 +6,7 @@
 
 Make sure you have `npm` installed in your system.
 Simply clone this repository using
-`git clone projectName`
+`git clone https://github.com/ekta2391/mesos-simulator.git`
 
 Within the project follow the steps below:
 
