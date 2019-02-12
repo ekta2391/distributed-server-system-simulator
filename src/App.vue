@@ -3,9 +3,12 @@
     <div class="side-nav-section">
       <SideNav />
     </div>
-    <div class="cluster-panel-section">
-      <div v-for="(server, index) in servers">
-        <Server :serverColor="appColor" :serverID="index + 1"  />
+    <div class="panel">
+      <h1> Server Canvas </h1>
+      <div class="cluster-panel-section">
+        <div v-for="(server, index) in servers">
+          <Server :color="server.app_1.name.toLowerCase()" :serverID="index + 1"  />
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +28,10 @@ export default {
   },
   data () {
     return {
-      serverStore: serverStore.get()
+      serverStore: serverStore.get(),
+      appColor: {
+        hadoop: 'white'
+      }
     }
   },
   mounted () {
@@ -53,14 +59,23 @@ export default {
 .side-nav-section {
   width: 20%;
 }
-
-.cluster-panel-section {
+.panel {
+  h1 {
+    text-align: left;
+    margin-left: 30px;
+  }
+  color: white;
+  font-family: sans-serif;
   width: 80%;
+}
+.cluster-panel-section {
+  width: 100%;
   grid-template-columns: 25% 25% 25% 25%;
   display: grid;
 }
 
 html, body {
+  font-family: sans-serif;
   height: 100%;
   width: 100%;
   margin: 0;

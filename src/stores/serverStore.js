@@ -4,49 +4,55 @@ const serverStore = {
     {
       id: 1,
       app_1: {
+        id: null,
         name: ''
       },
       app_2: {
+        id: null,
         name: ''
       },
     },
     {
       id: 2,
       app_1: {
+        id: null,
         name: ''
       },
       app_2: {
+        id: null,
         name: ''
       },
     },
     {
       id: 3,
       app_1: {
+        id: null,
         name: ''
       },
       app_2: {
+        id: null,
         name: ''
       },
     },
     {
       id: 4,
       app_1: {
+        id: null,
         name: ''
       },
       app_2: {
+        id: null,
         name: ''
       },
     },
   ],
-  // server: {
-  //   id: null,
-  //   app_1: {
-  //     name: ''
-  //   },
-  //   app_2: {
-  //     name: ''
-  //   },
-  // },
+  activeApps: {
+    'Hadoop': [],
+    'Rails': [],
+    'Chronos': [],
+    'Storm': [],
+    'Spark': []
+  },
   get () {
     return serverStore
   }
